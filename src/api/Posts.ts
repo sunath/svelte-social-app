@@ -12,7 +12,7 @@ export const addNewPost = (data:any) => {
 }
 
 export const getNormalPosts = (offset:number=0,_limit:number=10) => {
-    const q = query(collection(firebaseDatabase,"/posts"),orderBy("createdAt","desc"))
+    const q = query(collection(firebaseDatabase,"/posts"),orderBy("createdAt",'desc'))
     return collectionData(q,{
         idField:'id'
     })

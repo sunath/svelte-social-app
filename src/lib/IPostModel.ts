@@ -2,8 +2,8 @@
 
 export  interface IPostModel {
     type:"text" | "image" | "video",
-    createdAt:string,
-    updatedAt:string,
+    createdAt:Date,
+    updatedAt:Date,
     content:any,
     uid:string,
     ownerName:string,

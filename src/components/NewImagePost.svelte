@@ -15,6 +15,7 @@ import type { IImagePostModel } from "src/lib/IPostModel";
     export let uid;
     export let ownerName;
     export let ownerPhotoURL;
+    export let canGoBack = true;
 
     let createButtonActive = true;
 
@@ -38,8 +39,8 @@ import type { IImagePostModel } from "src/lib/IPostModel";
         createButtonActive = false;
 
         const postDels:IImagePostModel = {
-            createdAt:Date(),
-            updatedAt:Date(),
+            createdAt:new Date(),
+            updatedAt:new Date(),
             uid,
             content:newPostContent,
             imageURL:image,
@@ -76,8 +77,10 @@ import type { IImagePostModel } from "src/lib/IPostModel";
     }
 </style>
 
+{#if canGoBack}
+<IconButton class="material-icons" on:click={() => {dispatch('back')}}>arrow_back</IconButton>    
+{/if}
 
-<IconButton class="material-icons" on:click={() => {dispatch('back')}}>arrow_back</IconButton>
 
 
 <input type="file" style="display:none;"  bind:this={fileInputReference} on:change="{newFileSelected}">
@@ -96,9 +99,9 @@ import type { IImagePostModel } from "src/lib/IPostModel";
 
 <div class="photo-post-create">
  
-    <img src="{image}" alt="No Image" on:click={() => {fileInputReference.click()}} style="max-width:{window.innerWidth - window.innerWidth * 0.1}px;margin-bottom:1em;">
+    <img src="{image}" alt="No Image" on:click={() => {fileInputReference.click()}} style="max-width:600px;margin-bottom:1em;">
             <Textfield
-        style='width:100%;max-width:{window.innerWidth}px;'
+        style='width:100%;max-width:400px;'
         class="user__input"
         textarea
         label="Your post content"

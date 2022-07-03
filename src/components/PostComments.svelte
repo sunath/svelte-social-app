@@ -52,8 +52,8 @@ import UserCommentComponent from "./UserCommentComponent.svelte";
         commentActionAvaliable = false;
         const data:ICommentModel = {
             content:userCommentContent,
-            createdAt:Date(),
-            updatedAt:Date(),
+            createdAt:new Date(),
+            updatedAt:new Date(),
             postId:postid,
             uid:currentUserId,
             userImageURL,

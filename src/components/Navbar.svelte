@@ -72,7 +72,7 @@
 
 
 
-<NewPost  show={createANewPost} on:closeNewPost={() => {createANewPost = false;}}></NewPost>
+<NewPost   show={createANewPost} on:closeNewPost={() => {createANewPost = false;}}></NewPost>
 
 
 

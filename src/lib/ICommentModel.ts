@@ -2,8 +2,8 @@
 
 export interface ICommentModel {
     content:string
-    createdAt:string
-    updatedAt:string
+    createdAt:Date
+    updatedAt:Date
     uid:string
     postId:string,
     username:string,

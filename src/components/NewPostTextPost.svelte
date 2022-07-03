@@ -17,14 +17,21 @@
     export let photoURL;
     export let displayName;
 
+    export let canGoBack=true;
+
     const dispatch = createEventDispatcher()
     let newPostContent = "";
 
+
+    let postCreating = false;
+
    async function createNewTextPost(){
+
+        postCreating = true;
         const nextPost:IPostModel = {
             content:newPostContent,
-            createdAt:Date(),
-            updatedAt:Date(),
+            createdAt:new Date(),
+            updatedAt:new Date(),
             uid:userId,
             type:"text",
             ownerName:displayName,
@@ -35,20 +42,24 @@
         try{
 
         await addNewPost(nextPost)
-        
-        
-dispatch('close')
+        dispatch('close')
+        postCreating = false;
         }catch(ex){
 
             console.log('error')
             console.log(ex);
+            postCreating = false;
             
         }
     }
 
 </script>
 
-<IconButton class="material-icons" on:click={() => {dispatch('back')}}>arrow_back</IconButton>
+{#if canGoBack}
+    <IconButton class="material-icons" on:click={() => {dispatch('back')}}>arrow_back</IconButton>    
+{/if}
+
+
 
 <br>
 
@@ -63,8 +74,10 @@ dispatch('close')
     >
     </Textfield>
 
-    <Button variant='raised' on:click={createNewTextPost}>Create</Button>
+    <Button variant='raised' on:click={createNewTextPost} disabled={postCreating} >Create</Button>
 </div>
+
+
 
 
 

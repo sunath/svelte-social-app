@@ -1,5 +1,5 @@
 
-<script>
+<script type="ts">
 import { createEventDispatcher, onDestroy } from "svelte";
 import  Dialog,{Actions,Content,Header,Title} from "@smui/dialog"
 import Button from "@smui/button";
@@ -21,7 +21,6 @@ import NewImagePost from "./NewImagePost.svelte";
     const dispatch = createEventDispatcher()
     function closeNewPost(){
         dispatch("closeNewPost",{})
-        show=false;
     }
 
 
@@ -36,6 +35,17 @@ import NewImagePost from "./NewImagePost.svelte";
 
     function resetSelectionType(){
         postType = ""
+    }
+
+
+    export let customOne:boolean = false;
+    export let customOneType : "image" | "text" | null = null;
+
+
+    const getValidOfCustomPostType = (selectType) => {
+        
+            return customOne && customOneType === selectType;
+        
     }
 </script>
 
@@ -57,7 +67,7 @@ import NewImagePost from "./NewImagePost.svelte";
 
 
 
-<Dialog bind:open={show} fullscreen>
+<Dialog bind:open={show} fullscreen escapeKeyAction="" scrimClickAction=""> 
 
     <Header>
         <Title>Create your post</Title>
@@ -65,7 +75,7 @@ import NewImagePost from "./NewImagePost.svelte";
 
     <Content>
         
-        {#if !postType}
+        {#if !postType && !customOneType}
         <div class="post__type__selection">
             <Button class="selection__button" on:click={createSelectionFunction("text")}>Text</Button>
             <Button class="selection__button" on:click={createSelectionFunction("image")}>Image</Button>
@@ -73,26 +83,66 @@ import NewImagePost from "./NewImagePost.svelte";
         </div>
         {/if}
 
-        {#if postType=="text"}
-                <NewPostTextPost 
-                on:back={resetSelectionType} on:close={closeNewPost} 
-                userId={currentUser.uid}
-                displayName={currentUser.displayName}
-                photoURL={currentUser.photoURL}
-                ></NewPostTextPost>
 
-        
-        {:else if postType === "image"}
-            <NewImagePost 
-            ownerName={currentUser.displayName}
-            ownerPhotoURL={currentUser.photoURL}
-            uid={currentUser.uid}
-            on:back={resetSelectionType}
-            on:close={closeNewPost}
-            >
+        {#if currentUser}
 
-            </NewImagePost>
+
+        {#if postType=="text" }
+                            <NewPostTextPost 
+                            on:back={resetSelectionType} on:close={closeNewPost} 
+                            userId={currentUser.uid}
+                            displayName={currentUser.displayName}
+                            photoURL={currentUser.photoURL}
+                            
+                            ></NewPostTextPost>
+
+                    {:else if getValidOfCustomPostType("text")}
+
+                    <NewPostTextPost 
+                            on:back={resetSelectionType} on:close={closeNewPost} 
+                            userId={currentUser.uid}
+                            displayName={currentUser.displayName}
+                            photoURL={currentUser.photoURL}
+                            canGoBack={false}
+                    ></NewPostTextPost>
+
+
+                    {:else if getValidOfCustomPostType("image")}
+
+                    <NewImagePost 
+                        ownerName={currentUser.displayName}
+                        ownerPhotoURL={currentUser.photoURL}
+                        uid={currentUser.uid}
+                        on:back={resetSelectionType}
+                        on:close={closeNewPost}
+                        canGoBack={false}
+                        >
+
+                    </NewImagePost>
+
+
+
+
+
+
+                    {:else if postType === "image"}
+                        <NewImagePost 
+                        ownerName={currentUser.displayName}
+                        ownerPhotoURL={currentUser.photoURL}
+                        uid={currentUser.uid}
+                        on:back={resetSelectionType}
+                        on:close={closeNewPost}
+                        >
+
+                        </NewImagePost>
+
+
+
+                    {/if}
+            
         {/if}
+
+      
 
 
 
@@ -101,9 +151,10 @@ import NewImagePost from "./NewImagePost.svelte";
     </Content>
 
     <Actions>
-        {#if !postType}
+        {#if !postType || customOne}
             <Button variant="raised" on:click={closeNewPost}>Close</Button>    
         {/if}
+
         
     </Actions>
 

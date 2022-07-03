@@ -132,7 +132,7 @@ import PostCardHeader from "./CommonCardHeader.svelte";
         {content.substr(0,content.length - 1)}
       </Content>
 
-      <Media>
+      <Media style="height:400px;width:100%;max-height:400px;">
         <!-- {#if !imageLoaded}
         <Skeleton height="{360}" width="{360}">
         </Skeleton>
@@ -142,18 +142,18 @@ import PostCardHeader from "./CommonCardHeader.svelte";
         {/if} -->
 
         {#await getAImagePostImageUrL(imageUrL)}
-        <Skeleton width="{cardWith}" height="{cardHeight}">
+        <Skeleton width="{cardWith}" height="{400}">
         </Skeleton>
           
         {:then x}
         
         {#await getLoadedImage(x)}
 
-        <Skeleton height="{360}" width="{360}">
+        <Skeleton height="{400}" width="{cardWith}">
         </Skeleton>
           
         {:then x}
-        <img src="{x}" alt="" style="max-width:100%;"> 
+        <img src="{x}" alt="" style="max-width:100%;width:100%;height:400px;"> 
           
         {/await}
           

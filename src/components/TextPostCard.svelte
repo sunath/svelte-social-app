@@ -33,7 +33,6 @@ let mainReference,intersectionObserver,intersectingType="un__focused__card";
 onMount(() => {
   const observer = new IntersectionObserver((e) => {
     const result = e[0]
-    console.log(result)
     if(result.isIntersecting){
       intersectingType = "focused__card";
     }else{

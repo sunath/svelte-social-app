@@ -2,9 +2,25 @@
     
     import List, {Text,Separator,Graphic,Item} from "@smui/list"
 import { navigate } from "svelte-routing";
+import NewPost from "./NewPost.svelte";
 
+
+let newPostOpen = false;
+let newPostType:"image" | "text" | null = "text";
 </script>
 
+
+{#key newPostOpen}
+
+<NewPost
+on:closeNewPost = {() => {newPostOpen=false;newPostType=null;}} 
+show={newPostOpen} 
+customOne="{true}" 
+customOneType={newPostType}>
+</NewPost>
+
+  
+{/key}
 
 <div class="side__navbar__conatiner">
     <List class="demo-list"  style="postion:absolute;">
@@ -13,13 +29,23 @@ import { navigate } from "svelte-routing";
           <Text>Profile</Text>
         </Item>
 
-        <Item style="margin:2em;">
+        <Item style="margin:2em;" on:SMUI:action={() => {
+          newPostType = "text";
+          newPostOpen=true;
+          
+          }}>
           <Graphic class="material-icons">post_add</Graphic>
           <Text>New Text Post</Text>
         </Item>
 
 
-        <Item style="margin:2em;">
+        <Item style="margin:2em;"
+          on:SMUI:action={() => {
+            newPostType= "image";
+            newPostOpen = true;
+            console.log(newPostType)
+          }}
+        >
             <Graphic class="material-icons">image</Graphic>
             <Text>New Image Post</Text>
           </Item>
@@ -53,6 +79,8 @@ import { navigate } from "svelte-routing";
 
 
 
+
+
 <style>
 
 
@@ -62,7 +90,7 @@ import { navigate } from "svelte-routing";
         height: 100vh;
         padding: 1em 0 1em 0;
         top:-10%;
-        z-index: 100;
+        z-index: 1;
     }
 
     .demo-list{
