@@ -41,7 +41,7 @@
                             <Text>New post</Text>
                         </Item>
 
-                        <Item>
+                        <Item on:SMUI:action={() => {navigate("/u/posts/"+user.uid)}}>
                             <Text>My Posts</Text>
                         </Item>
 
@@ -145,6 +145,7 @@ import { getUserProfilePictureByUrl } from "../api/User";
 import UserSearchComponent from "./UserSearchComponent.svelte";
 
 import Skeleton from "svelte-skeleton/Skeleton.svelte"
+import { navigate } from "svelte-routing";
 
 
 

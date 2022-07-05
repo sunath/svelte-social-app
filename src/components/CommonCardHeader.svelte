@@ -6,14 +6,19 @@
     export let userId,ownerName;
     import { getUserProfileImageById } from "../api/User";
     import Skeleton from "svelte-skeleton/Skeleton.svelte";
+import { navigate } from "svelte-routing";
 
 
     const userProfileImageP = getUserProfileImageById(userId)
+    export let uid;
 
+    const navigateUser = () => {
+      navigate("/u/posts/"+uid)
+    }
 
 </script>
 
-<div class="card-header">
+<div class="card-header" on:click="{navigateUser}">
         
     {#await userProfileImageP}
     <Skeleton height="{30}" width="{30}">

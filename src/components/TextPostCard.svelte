@@ -84,6 +84,7 @@ onDestroy(() => {
       <div style="padding: 1rem;">
       
         <PostCardHeader
+        uid={uid.replace(",","")}
         ownerName={ownerName}
         userId={userId}
         >

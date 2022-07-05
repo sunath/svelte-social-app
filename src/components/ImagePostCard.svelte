@@ -59,6 +59,7 @@ import { getMultiFactorResolver, RecaptchaVerifier } from "firebase/auth";
 import PostComments from "./PostComments.svelte";
 import { getUserProfileImageById } from "../api/User";
 import PostCardHeader from "./CommonCardHeader.svelte";
+import IconButton from "@smui/icon-button";
 
 
     const userProfilImageP = getUserProfileImageById(userId)
@@ -113,10 +114,14 @@ import PostCardHeader from "./CommonCardHeader.svelte";
 </style>
 
 
+
+
+
 <div class="card-container {intersectingType}" bind:clientWidth="{cardWith}" bind:clientHeight={cardHeight} bind:this={mainReference}>
     <Card style="z-index:0;position:initial;">
       <div style="padding: 1rem;">
         <PostCardHeader
+        uid={userId}
         ownerName={ownerName}
         userId={userId}
         ></PostCardHeader>

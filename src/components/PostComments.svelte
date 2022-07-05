@@ -16,7 +16,7 @@ import UserCommentComponent from "./UserCommentComponent.svelte";
 
     const postCommentsObserver = getCommentsOfAPost(postid).pipe(startWith([]))
 
-    $: userImageModifiedUrL = (userImageURL as string).endsWith(",") ? (userImageURL as string).slice(0,userImageURL.length-1) : userImageURL;
+    $: userImageModifiedUrL = userImageURL && (userImageURL as string).endsWith(",") ? (userImageURL as string).slice(0,userImageURL.length-1) : userImageURL;
 
 
     let loadingObserverReference,loadingObserverSubscription;

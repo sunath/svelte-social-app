@@ -1,12 +1,20 @@
 <script type="ts">
     
     import List, {Text,Separator,Graphic,Item} from "@smui/list"
+import { authUser } from "../store/user_auth";
 import { navigate } from "svelte-routing";
 import NewPost from "./NewPost.svelte";
 
 
 let newPostOpen = false;
 let newPostType:"image" | "text" | null = "text";
+
+
+let user;
+
+let authUserSubscription = authUser.subscribe(e => {
+  user = e;
+})
 </script>
 
 
@@ -52,12 +60,14 @@ customOneType={newPostType}>
 
 
 
-        <Item style="margin:2em;">
+        <Item style="margin:2em;" on:SMUI:action = {() => {
+          navigate("/u/posts/"+user.uid || "")
+        }}>
             <Graphic class="material-icons">mail</Graphic>
             <Text>Your Posts</Text>
         </Item>
 
-
+<!-- 
         <Item style="margin:2em;">
             <Graphic class="material-icons">favorite</Graphic>
             <Text>Favorite Posts</Text>
@@ -71,7 +81,7 @@ customOneType={newPostType}>
         <Item style="margin:2em;">
           <Graphic class="material-icons">group</Graphic>
           <Text>Friends</Text>
-        </Item>
+        </Item> -->
       </List>
 </div>
 

@@ -2,9 +2,9 @@
 
 <script type="ts">
 
-    import {collection,getDoc,doc} from "firebase/firestore"
-    import {firebaseDatabase} from '../firebase'
-    import {authUser} from "../store/user_auth"
+import {collection,getDoc,doc} from "firebase/firestore"
+import {firebaseDatabase} from '../firebase'
+import {authUser} from "../store/user_auth"
 
     import {getNormalPosts} from "../api/Posts"
 import TextPostCard from "./TextPostCard.svelte"
@@ -16,24 +16,20 @@ import CirculaProgress from "@smui/circular-progress"
 
     let posts = getNormalPosts().pipe(startWith([]))
 
+
+    export let isCustomPostData:boolean = false;
+    export let customPostData = []
+
     let normalPosts = [],loading=true;
 
     const postsSubscription = posts.subscribe(e => {
         normalPosts = e
         loading = false;
-        console.log(e.sort((a,b) => {
-            if(a > b)return 1;
-            else if(a<b)return -1;
-            return 0;
-        }))
-       
     })
 
     let currentUserId,currentUsername,currentUserImageUrL;
     let currentUserSubscription = authUser.subscribe(e => {
         if(e){
-            console.log(e)
-
             currentUserId = e.uid;
             currentUsername = e.displayName;
             currentUserImageUrL = e.photoURL
@@ -63,7 +59,7 @@ import CirculaProgress from "@smui/circular-progress"
   
 
 
-{#each $posts as post}
+{#each (isCustomPostData ? customPostData : normalPosts) as post}
 
 <div class="post__conatiner"> 
     {#if post.type==="text"}

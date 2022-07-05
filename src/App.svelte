@@ -36,19 +36,38 @@ import Home from "./routers/Home.svelte";
 import SideNavbar from "./components/SideNavbar.svelte";
 import LoginUserComponent from "./components/LoginUserComponent.svelte";
 import SetupProfileRouter from "./routers/SetupProfileRouter.svelte";
+import UserProfileShower from "./routers/UserProfileShower.svelte";
+import { getUserProfileData } from "./api/User";
+import { setFirebasePostCount, setUserPostCounts } from "./functions/setFirebaseConfig";
 
-    firebaseAuth.onAuthStateChanged((user) => {
+    firebaseAuth.onAuthStateChanged(async (user) => {
       if(!user){
         navigate("/not-authenticated")
+      }else{
+        try{
+        const response = await getUserProfileData(user.uid)
+        if(!response){
+          navigate("/u/profile")
+        }
+        }catch(ex){
+
+        }
       }
+
       authUser.set(user)
     });
+
 
 </script>
 
 
 <Router url={url}>
     <Navbar />
+    
+    <Route path="/u/posts/:id" let:params>
+      <UserProfileShower id={params.id}/>
+    </Route>
+
     <Route path="/u/profile" component={SetupProfileRouter} />
     <Route path="/not-authenticated" component={LoginUserComponent}/>
     <Route path="/" component={Home}/>
